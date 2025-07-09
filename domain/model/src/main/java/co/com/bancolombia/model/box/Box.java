@@ -1,18 +1,13 @@
 package co.com.bancolombia.model.box;
 import co.com.bancolombia.model.boxstatus.BoxStatus;
-import lombok.Builder;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-@Getter
-@Setter
-//@NoArgsConstructor
+@NoArgsConstructor
 @AllArgsConstructor
-@Builder(toBuilder = true)
+@Data
 public class Box {
     private String id;                // ID de la caja
     private String name;              // Nombre o número de caja

@@ -1,6 +1,6 @@
 package co.com.bancolombia.api.config;
 
-import co.com.bancolombia.api.Handler;
+import co.com.bancolombia.api.handlers.Handler;
 import co.com.bancolombia.api.RouterRest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

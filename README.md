@@ -1,5 +1,71 @@
 # Proyecto Base Implementando Clean Architecture
 
+# for this study project i used the following resources:
+
+# Podman and MongoDB and RabbitMQ
+## Run MongoDB with Podman
+
+```sh
+podman  machine start
+```
+
+```sh
+podman start  mongo
+```
+#Optional clean start
+#podman stop  mongo
+#podman rm  mongo
+#podman run --name mongo -d -p 27017:27017 -v $(pwd)/mongodb-data:/data/db mongo:latest
+
+```sh
+podman start  rabbitmq-stack
+```
+
+#List
+```sh
+curl -X GET "http://localhost:8080/box" -H "Accept: application/json"
+```
+
+```sh
+curl -X POST "http://localhost:8080/box" \
+  -H "Content-Type: application/json" \
+  -d '{"id":"123","name":"Sample Box","status":"OPEN","openedAt":"2024-06-01T10:00:00Z","closedAt":null,"closingAmount":1000,"currentBalance":500}'
+```
+
+```sh
+curl -X POST "http://localhost:8080/box" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "id": "123",
+    "name": "Sample Box",
+    "status": "OPENED",
+    "openingAmount": 1000.00,
+    "closingAmount": 1500.00,
+    "openedAt": "2024-06-01T10:00:00",
+    "closedAt": "2024-06-02T18:00:00",
+    "currentBalance": 500.00
+  }'
+```
+
+
+```sh
+curl -X PUT "http://localhost:8080/box/123" \
+  -H "Content-Type: application/json" \
+  -d '{"id":"123","name":"Updated Box","status":"CLOSED","openedAt":"2024-06-01T10:00:00Z","closedAt":"2024-06-02T18:00:00Z","closingAmount":1500,"currentBalance":0}'
+```
+
+```sh
+curl -X DELETE "http://localhost:8080/box/123"
+```
+
+
+
+#Optional clean start
+#podman stop  rabbitmq-stack
+#podman rm  rabbitmq-stack
+#podman run --tls-verify=false -d --hostname my-rabbit --name rabbitmq-stack -p 5672:5672 -p 15672:15672 rabbitmq:3-management
+
+
 ## Antes de Iniciar
 
 Empezaremos por explicar los diferentes componentes del proyectos y partiremos de los componentes externos, continuando con los componentes core de negocio (dominio) y por último el inicio y configuración de la aplicación.
@@ -45,3 +111,4 @@ Los entry points representan los puntos de entrada de la aplicación o el inicio
 Este módulo es el más externo de la arquitectura, es el encargado de ensamblar los distintos módulos, resolver las dependencias y crear los beans de los casos de use (UseCases) de forma automática, inyectando en éstos instancias concretas de las dependencias declaradas. Además inicia la aplicación (es el único módulo del proyecto donde encontraremos la función “public static void main(String[] args)”.
 
 **Los beans de los casos de uso se disponibilizan automaticamente gracias a un '@ComponentScan' ubicado en esta capa.**
+
