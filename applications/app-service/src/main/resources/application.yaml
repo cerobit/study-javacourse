@@ -1,0 +1,34 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: "ScaffoldQuickStart"
+  devtools:
+    add-properties: false
+  h2:
+    console:
+      enabled: true
+      path: "/h2"
+  profiles:
+    include: null
+  rabbitmq:
+    host: 192.170.100.170
+    port: 5672
+    username: guest
+    password: guest
+
+  data:
+    mongodb:
+      uri: "mongodb://192.170.100.170:27017/test"
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "health,prometheus"
+  endpoint:
+    health:
+      probes:
+        enabled: true
+cors:
+  allowed-origins: "http://localhost:4200,http://localhost:8080"
