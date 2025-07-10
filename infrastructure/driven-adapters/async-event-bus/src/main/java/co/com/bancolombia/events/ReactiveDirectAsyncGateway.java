@@ -14,8 +14,8 @@ import java.util.logging.Level;
 @Log
 @AllArgsConstructor
 @EnableDirectAsyncGateway
-public class ReactiveDirectAsyncGateway /* implements Gateway from domain */ {
-    public static final String TARGET_NAME = "cleanArchitecture";// refers to remote spring.application.name property
+public class ReactiveDirectAsyncGateway  {
+    public static final String TARGET_NAME = "studyTaller8";// refers to remote spring.application.name property
     public static final String SOME_COMMAND_NAME = "some.command.name";
     public static final String SOME_QUERY_NAME = "some.query.name";
     private final DirectAsyncGateway gateway;

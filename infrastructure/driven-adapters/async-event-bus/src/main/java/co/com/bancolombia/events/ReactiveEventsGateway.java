@@ -1,5 +1,8 @@
 package co.com.bancolombia.events;
 
+import co.com.bancolombia.model.box.Box;
+import co.com.bancolombia.model.event.BoxEvent;
+import co.com.bancolombia.model.event.BoxEventType;
 import co.com.bancolombia.model.events.gateways.EventsGateway;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
@@ -17,12 +20,12 @@ import static reactor.core.publisher.Mono.from;
 @RequiredArgsConstructor
 @EnableDomainEventBus
 public class ReactiveEventsGateway implements EventsGateway {
-    public static final String SOME_EVENT_NAME = "some.event.name";
+
     private final DomainEventBus domainEventBus;
 
     @Override
-    public Mono<Void> emit(Object event) {
-        log.log(Level.INFO, "Sending domain event: {0}: {1}", new String[]{SOME_EVENT_NAME, event.toString()});
-         return from(domainEventBus.emit(new DomainEvent<>(SOME_EVENT_NAME, UUID.randomUUID().toString(), event)));
+    public Mono<Void> emit(BoxEvent event, BoxEventType eventType) {
+        log.log(Level.INFO, "Sending domain event: {0}: {1}", new String[]{ eventType.getValue(), event.toString()});
+         return from(domainEventBus.emit(new DomainEvent<>( eventType.getValue(), UUID.randomUUID().toString(), event)));
     }
 }

@@ -3,6 +3,7 @@ package co.com.bancolombia.usecase.getbox;
 import co.com.bancolombia.model.event.BoxEvent;
 import co.com.bancolombia.model.box.Box;
 import co.com.bancolombia.model.box.gateways.BoxRepository;
+import co.com.bancolombia.model.event.BoxEventType;
 import co.com.bancolombia.model.events.gateways.EventsGateway;
 import lombok.RequiredArgsConstructor;
 import reactor.core.publisher.Flux;
@@ -20,12 +21,12 @@ public class BoxUseCase {
 public Mono<Box> createBox(Box box) {
     return boxRepository.createBox(box)
             .flatMap(createdBox -> {
-                BoxEvent event = new BoxEvent(createdBox, "CREATE", "SUCCESS");
-                return eventsGateway.emit(event).thenReturn(createdBox);
+                BoxEvent event = new BoxEvent("CREATE", "SUCCESS", createdBox );
+                return eventsGateway.emit(event, BoxEventType.CREATE ).thenReturn(createdBox);
             })
             .onErrorResume(e -> {
-                BoxEvent event = new BoxEvent(box, "CREATE", "FAILED");
-                return eventsGateway.emit(event).then(Mono.error(e));
+                BoxEvent event = new BoxEvent( "CREATE", "FAILED", box);
+                return eventsGateway.emit(event, BoxEventType.CREATE).then(Mono.error(e));
             });
 }
 

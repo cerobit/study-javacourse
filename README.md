@@ -29,12 +29,6 @@ curl -X GET "http://localhost:8080/box" -H "Accept: application/json"
 ```sh
 curl -X POST "http://localhost:8080/box" \
   -H "Content-Type: application/json" \
-  -d '{"id":"123","name":"Sample Box","status":"OPEN","openedAt":"2024-06-01T10:00:00Z","closedAt":null,"closingAmount":1000,"currentBalance":500}'
-```
-
-```sh
-curl -X POST "http://localhost:8080/box" \
-  -H "Content-Type: application/json" \
   -d '{
     "id": "123",
     "name": "Sample Box",

@@ -1,5 +1,5 @@
 package co.com.bancolombia.events;
-import co.com.bancolombia.model.box.Box;
+import co.com.bancolombia.model.event.BoxEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 import lombok.extern.slf4j.Slf4j;
@@ -9,7 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 public class BoxEventListener {
 
     @EventListener
-    public void handleBoxEvent(Box box) {
-        log.info("Received Box event: {}", box);
+    public void handleBoxEvent(BoxEvent boxEvent) {
+        log.info("Received Box event: {}", boxEvent);
     }
 }

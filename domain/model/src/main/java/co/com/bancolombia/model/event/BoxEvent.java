@@ -7,7 +7,7 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class BoxEvent {
-    private Box box;
     private String operation;
     private String result;
+    private Box box;
 }
