@@ -15,12 +15,12 @@ public class EventHandlerConfig {
 
     @Bean
     public DomainEventHandler<BoxEvent> boxEventHandler() {
+
         return new DomainEventHandler<>() {
             @Override
             public Mono<Void> handle(DomainEvent<BoxEvent> event) {
                 return Mono.fromRunnable(() -> {
                     log.info("Received BoxEvent via reactive-commons: {}", event.getData());
-                    // Business logic here
                 });
             }
         };

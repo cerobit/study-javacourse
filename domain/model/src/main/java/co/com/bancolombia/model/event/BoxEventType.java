@@ -4,6 +4,7 @@ public enum BoxEventType {
     CREATE("box.create"),
     DELETE("box.delete"),
     UPDATE("box.update"),
+    UPDATE_NAME("box.updatename"),
     BOX("box.box");
 
     private final String value;

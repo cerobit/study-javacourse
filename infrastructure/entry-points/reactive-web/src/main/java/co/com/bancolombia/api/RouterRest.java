@@ -17,6 +17,7 @@ public class RouterRest {
         return RouterFunctions.route(GET("/box/{id}"), handler::getBoxByID)
                 .andRoute(POST("/box"), handler::createBox)
                 .andRoute(PUT("/box/{id}"), handler::updateBox)
+                .andRoute(PATCH("/box/{id}"), handler::updateBoxName)
                 .andRoute(DELETE("/box/{id}"), handler::deleteBox)
                 .andRoute(GET("/box"), handler::listBox);
     }

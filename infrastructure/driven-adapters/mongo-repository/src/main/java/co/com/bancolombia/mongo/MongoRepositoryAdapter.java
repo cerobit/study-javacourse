@@ -34,6 +34,17 @@ public class MongoRepositoryAdapter extends AdapterOperations<Box, BoxData, Stri
     }
 
     @Override
+    public Mono<Box> updateName(String id, String name) {
+        return repository.findById(id)
+                .flatMap(boxData -> {
+                    boxData.setName(name);
+                    return repository.save(boxData);
+                })
+                .map(this::toEntity);
+    }
+
+
+    @Override
     public Mono<Box> getBoxByID(String id) {
         return findById(id);
     }

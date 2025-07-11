@@ -5,7 +5,6 @@ import lombok.extern.java.Log;
 import org.reactivecommons.api.domain.Command;
 import org.reactivecommons.async.api.AsyncQuery;
 import org.reactivecommons.async.api.DirectAsyncGateway;
-import org.reactivecommons.async.impl.config.annotations.EnableDirectAsyncGateway;
 import reactor.core.publisher.Mono;
 
 import java.util.UUID;
@@ -13,8 +12,8 @@ import java.util.logging.Level;
 
 @Log
 @AllArgsConstructor
-@EnableDirectAsyncGateway
 public class ReactiveDirectAsyncGateway  {
+
     public static final String TARGET_NAME = "studyTaller8";// refers to remote spring.application.name property
     public static final String SOME_COMMAND_NAME = "some.command.name";
     public static final String SOME_QUERY_NAME = "some.query.name";

@@ -1,5 +1,6 @@
 package co.com.bancolombia.api.handlers;
 
+import co.com.bancolombia.api.model.UpdateBoxNameRequest;
 import co.com.bancolombia.model.box.Box;
 import co.com.bancolombia.usecase.getbox.BoxUseCase;
 import lombok.RequiredArgsConstructor;
@@ -24,17 +25,26 @@ public class Handler {
                 .switchIfEmpty(ServerResponse.notFound().build());
     }
 
+    public Mono<ServerResponse> updateBox(ServerRequest serverRequest) {
+        String id = serverRequest.pathVariable("id");
+        return serverRequest.bodyToMono(Box.class)
+                .flatMap(box -> ServerResponse.ok().body(boxUseCase.updateBox(id, box), Box.class));
+    }
+
     public Mono<ServerResponse> createBox(ServerRequest request) {
         return request.bodyToMono(Box.class)
                 .flatMap(boxUseCase::createBox)
                 .flatMap(box -> ServerResponse.ok().contentType(MediaType.APPLICATION_JSON).bodyValue(box));
     }
 
-    public Mono<ServerResponse> updateBox(ServerRequest request) {
+    public Mono<ServerResponse> updateBoxName(ServerRequest request) {
         String id = request.pathVariable("id");
-        return request.bodyToMono(Box.class)
-                .flatMap(box -> boxUseCase.updateBox(id, box))
-                .flatMap(box -> ServerResponse.ok().contentType(MediaType.APPLICATION_JSON).bodyValue(box))
+        return request.bodyToMono(UpdateBoxNameRequest.class)
+                .flatMap(dto -> boxUseCase.updateBoxName(id, dto.getName()))
+                .flatMap(box -> ServerResponse.ok()
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .bodyValue(box))
+                .onErrorResume(e -> ServerResponse.badRequest().bodyValue(e.getMessage()))
                 .switchIfEmpty(ServerResponse.notFound().build());
     }
 

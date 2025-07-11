@@ -41,6 +41,13 @@ curl -X POST "http://localhost:8080/box" \
   }'
 ```
 
+```sh
+curl --location --request PATCH 'http://localhost:8080/box/123' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "name": "New Partial Box Name"
+}'
+```
 
 ```sh
 curl -X PUT "http://localhost:8080/box/123" \
