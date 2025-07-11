@@ -36,9 +36,20 @@ curl -X POST "http://localhost:8080/box" \
     "openingAmount": 1000.00,
     "closingAmount": 1500.00,
     "openedAt": "2024-06-01T10:00:00",
-    "closedAt": "2024-06-02T18:00:00",
+    "closedAt": "",
     "currentBalance": 500.00
   }'
+```
+#Close Box
+```sh
+curl -X POST "http://localhost:8080/box/close/123" \
+  -H "Content-Type: application/json"
+```
+
+#Reopen Box
+```sh
+curl -X POST "http://localhost:8080/box/reopen/123" \
+  -H "Content-Type: application/json"
 ```
 
 ```sh

@@ -48,6 +48,22 @@ public class Handler {
                 .switchIfEmpty(ServerResponse.notFound().build());
     }
 
+    public Mono<ServerResponse> closeBox(ServerRequest request) {
+        String id = request.pathVariable("id");
+        return boxUseCase.CloseBoxByID(id)
+                .flatMap(box -> ServerResponse.ok()
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .bodyValue(box))
+                .switchIfEmpty(ServerResponse.notFound().build());
+    }
+
+    public Mono<ServerResponse> reOpenBox(ServerRequest request) {
+        String id = request.pathVariable("id");
+        return boxUseCase.reOpenBox(id)
+                .flatMap(box -> ServerResponse.ok().bodyValue(box))
+                .onErrorResume(e -> ServerResponse.badRequest().bodyValue(e.getMessage()));
+    }
+
     public Mono<ServerResponse> deleteBox(ServerRequest request) {
         String id = request.pathVariable("id");
         return boxUseCase.deleteBox(id)
