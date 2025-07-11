@@ -1,6 +1,5 @@
 package co.com.bancolombia.events;
 
-import co.com.bancolombia.model.box.Box;
 import co.com.bancolombia.model.event.BoxEvent;
 import co.com.bancolombia.model.event.BoxEventType;
 import co.com.bancolombia.model.events.gateways.EventsGateway;

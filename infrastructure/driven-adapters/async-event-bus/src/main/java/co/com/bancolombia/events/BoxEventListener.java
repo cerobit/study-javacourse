@@ -12,4 +12,5 @@ public class BoxEventListener {
     public void handleBoxEvent(BoxEvent boxEvent) {
         log.info("Received Box event: {}", boxEvent);
     }
+
 }
