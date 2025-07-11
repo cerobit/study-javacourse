@@ -10,7 +10,6 @@ import lombok.RequiredArgsConstructor;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import java.util.UUID;
 
 @RequiredArgsConstructor
 public class BoxUseCase {
@@ -34,26 +33,31 @@ public class BoxUseCase {
     }
 
 public Mono<Box> updateBoxName(String id, String name) {
-    return boxRepository.getBoxByID(id)
-        .flatMap(boxBefore ->
-            boxRepository.updateName(id, name)
-                .flatMap(updatedBox -> {
-                    BoxEventUpdate event = new BoxEventUpdate().toBuilder()
-                            .previousName(boxBefore.getName())
-                            .newName(name)
-                            .updatedAt(new java.sql.Timestamp(System.currentTimeMillis()))
-                            .build();
-                    return eventsGateway.emitEventUpdate(event, BoxEventType.UPDATE).thenReturn(updatedBox);
-                })
-                .onErrorResume(e -> {
-                    BoxEventUpdate event = new BoxEventUpdate().toBuilder()
-                            .previousName(boxBefore.getName())
-                            .newName(name)
-                            .updatedAt(new java.sql.Timestamp(System.currentTimeMillis()))
-                            .build();
-                    return eventsGateway.emitEventUpdate(event, BoxEventType.UPDATE).then(Mono.error(e));
-                })
-        );
+    return Mono.defer(() -> {
+        if (name == null || name.trim().isEmpty()) {
+            return Mono.error(new IllegalArgumentException("Name must not be empty"));
+        }
+        return boxRepository.getBoxByID(id)
+            .flatMap(boxBefore ->
+                boxRepository.updateName(id, name)
+                    .flatMap(updatedBox -> {
+                        BoxEventUpdate event = new BoxEventUpdate().toBuilder()
+                                .previousName(boxBefore.getName())
+                                .newName(name)
+                                .updatedAt(new java.sql.Timestamp(System.currentTimeMillis()))
+                                .build();
+                        return eventsGateway.emitEventUpdate(event, BoxEventType.UPDATE).thenReturn(updatedBox);
+                    })
+                    .onErrorResume(e -> {
+                        BoxEventUpdate event = new BoxEventUpdate().toBuilder()
+                                .previousName(boxBefore.getName())
+                                .newName(name)
+                                .updatedAt(new java.sql.Timestamp(System.currentTimeMillis()))
+                                .build();
+                        return eventsGateway.emitEventUpdate(event, BoxEventType.UPDATE).then(Mono.error(e));
+                    })
+            );
+    });
 }
 
     public Mono<Box> updateBox(String id, Box box) {

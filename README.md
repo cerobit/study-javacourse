@@ -59,8 +59,6 @@ curl -X PUT "http://localhost:8080/box/123" \
 curl -X DELETE "http://localhost:8080/box/123"
 ```
 
-
-
 #Optional clean start
 #podman stop  rabbitmq-stack
 #podman rm  rabbitmq-stack

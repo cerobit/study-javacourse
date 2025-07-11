@@ -20,14 +20,6 @@ public class Box {
     private LocalDateTime closedAt;   // Fecha y hora de cierre
     private BigDecimal currentBalance;// Saldo actual de la caja
 
-   // Validadation for use case 3
-    public void setName(String name) {
-        if (name == null || name.trim().isEmpty()) {
-            throw new IllegalArgumentException("Box name cannot be null or empty");
-        }
-        this.name = name;
-    }
-
     // Métodos de negocio (sin cambios)
     public void open(BigDecimal amount) {
         if (status == BoxStatus.OPENED) {
