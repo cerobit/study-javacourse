@@ -12,14 +12,14 @@ spring:
   profiles:
     include: null
   rabbitmq:
-    host: 192.170.100.170
+    host: localhost
     port: 5672
     username: guest
     password: guest
 
   data:
     mongodb:
-      uri: "mongodb://192.170.100.170:27017/taller8"
+      uri: "mongodb://localhost/taller8"
 management:
   endpoints:
     web:

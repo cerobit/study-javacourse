@@ -2,6 +2,8 @@ package co.com.bancolombia.mongo.helper;
 
 import co.com.bancolombia.mongo.MongoDBRepository;
 import co.com.bancolombia.mongo.MongoRepositoryAdapter;
+import co.com.bancolombia.model.box.Box;
+import co.com.bancolombia.mongo.BoxData;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -13,6 +15,7 @@ import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
 class AdapterOperationsTest {
@@ -25,63 +28,71 @@ class AdapterOperationsTest {
 
     private MongoRepositoryAdapter adapter;
 
-    private Object entity;
-    private Flux<Object> entities;
+    private Box entity;
+    private Flux<Box> entities;
 
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
 
-        when(objectMapper.map("value", Object.class)).thenReturn("value");
+        entity = new Box();
+        entities = Flux.just(entity);
+
+        BoxData boxData = new BoxData();
+
+        when(objectMapper.map(any(Box.class), eq(BoxData.class))).thenReturn(boxData);
+        when(objectMapper.map(any(BoxData.class), eq(Box.class))).thenReturn(entity);
 
         adapter = new MongoRepositoryAdapter(repository, objectMapper);
-
-        entity = "value";
-        entities = Flux.just(entity);
     }
 
     @Test
     void testSave() {
-        when(repository.save(entity)).thenReturn(Mono.just("value"));
+        BoxData boxData = new BoxData();
+        when(repository.save(any(BoxData.class))).thenReturn(Mono.just(boxData));
 
         StepVerifier.create(adapter.save(entity))
-                .expectNext("value")
+                .expectNext(entity)
                 .verifyComplete();
     }
 
     @Test
     void testSaveAll() {
-        when(repository.saveAll(any(Flux.class))).thenReturn(entities);
+        BoxData boxData = new BoxData();
+        when(repository.saveAll(any(Flux.class))).thenReturn(Flux.just(boxData));
 
         StepVerifier.create(adapter.saveAll(entities))
-                .expectNext("value")
+                .expectNext(entity)
                 .verifyComplete();
     }
 
     @Test
     void testFindById() {
-        when(repository.findById("key")).thenReturn(Mono.just(entity));
+        BoxData boxData = new BoxData();
+        when(repository.findById("key")).thenReturn(Mono.just(boxData));
 
         StepVerifier.create(adapter.findById("key"))
-                .expectNext("value")
+                .expectNext(entity)
                 .verifyComplete();
     }
 
     @Test
     void testFindByExample() {
-        when(repository.findAll(any(Example.class))).thenReturn(entities);
+        BoxData boxData = new BoxData();
+        when(repository.findAll(any(Example.class))).thenReturn(Flux.just(boxData));
 
         StepVerifier.create(adapter.findByExample(entity))
-                .expectNext("value")
+                .expectNext(entity)
                 .verifyComplete();
     }
 
     @Test
     void testFindAll() {
-        when(repository.findAll()).thenReturn(entities);
+        BoxData boxData = new BoxData();
+        when(repository.findAll()).thenReturn(Flux.just(boxData));
 
         StepVerifier.create(adapter.findAll())
-                .expectNext("value")
+                .expectNext(entity)
                 .verifyComplete();
     }
 

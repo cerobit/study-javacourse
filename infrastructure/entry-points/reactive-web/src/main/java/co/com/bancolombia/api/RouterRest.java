@@ -1,4 +1,4 @@
-package co.com.bancolombia.api.router;
+package co.com.bancolombia.api;
 
 import co.com.bancolombia.api.handlers.Handler;
 import org.springframework.context.annotation.Bean;
